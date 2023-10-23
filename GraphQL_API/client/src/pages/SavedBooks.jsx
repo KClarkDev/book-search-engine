@@ -1,35 +1,48 @@
 import { useState, useEffect } from "react";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
 
-// import { getMe, deleteBook } from '../utils/API';
 import { useQuery, useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { removeBookId } from "../utils/localStorage";
+import { GET_ME } from "../utils/queries";
+import { REMOVE_BOOK } from "../utils/mutations";
 
 const SavedBooks = () => {
   const [userData, setUserData] = useState({});
-
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
+
+  const { loading, error, data } = useQuery(GET_ME);
+  console.log(`The data is: ${data}`);
+  const [RemoveBook] = useMutation(REMOVE_BOOK);
 
   useEffect(() => {
     const getUserData = async () => {
       try {
         const token = Auth.loggedIn() ? Auth.getToken() : null;
+        console.log(`The token is ${token}`);
 
         if (!token) {
+          console.log("NO TOKEN");
           return false;
         }
 
-        const response = await getMe(token);
+        const response = data;
+
+        console.log("I'm here");
+        console.log(`The response is: ${data}`); //returning undefined
 
         if (!response.ok) {
           throw new Error("something went wrong!");
         }
 
-        const user = await response.json();
+        // const user = await response.json();
+        const user = data;
+        console.log("here");
+        console.log(user);
         setUserData(user);
       } catch (err) {
+        console.log("OOPS ERROR");
         console.error(err);
       }
     };
@@ -46,7 +59,7 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await deleteBook(bookId, token);
+      const response = await RemoveBook(bookId, token);
 
       if (!response.ok) {
         throw new Error("something went wrong!");

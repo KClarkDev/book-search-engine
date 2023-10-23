@@ -35,8 +35,8 @@ const SignupForm = () => {
           variables: userFormData,
         });
 
-        const token = data.createUser.token;
-        const user = data.createUser.user;
+        const token = data.addUser.token;
+        const user = data.addUser.user;
         Auth.login(token);
       } catch (err) {
         console.error(err);

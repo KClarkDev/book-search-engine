@@ -17,9 +17,9 @@ const typeDefs = `
 
   input BookInput {
     bookId: String!
-    authors: [String!]
-    description: String!
-    title: String!
+    authors: [String]
+    description: String
+    title: String
     image: String
     link: String
   }
@@ -30,7 +30,7 @@ const typeDefs = `
   }
 
   type Query {
-    me: User
+    getMe: User
   }
 
   type Mutation {

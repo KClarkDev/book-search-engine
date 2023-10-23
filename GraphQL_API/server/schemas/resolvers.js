@@ -4,7 +4,7 @@ const { signToken, AuthenticationError } = require("../utils/auth");
 const resolvers = {
   Query: {
     // retrieves a specific user by their username. Includes the user's saved books when returning the data
-    me: async (parent, { username }) => {
+    getMe: async (parent, { username }) => {
       return User.findOne({ username }).populate("books");
     },
   },
